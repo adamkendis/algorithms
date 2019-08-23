@@ -7,7 +7,6 @@ peek = print element at front of queue
 
 */
 
-
 function processData(input) {
   input = input.split('\n').slice(1);
   let inStack = [];
@@ -17,25 +16,22 @@ function processData(input) {
       if (query.length > 1) {
           query = query.split(' ');
       }
-      // enqueue - push to inStack
       if (query[0] === '1') {
           inStack.push(query[1]);
-      // dequeue - emtpy inStack to outStack
       } else if (query[0] === '2') {
-          if (!outStack.length) {
-              while (inStack.length) {
-                  outStack.push(inStack.pop());
-              }
-          }
+          transferStack(inStack, outStack);
           outStack.pop();
-      // peek - empty inStack to outStack 
       } else if (query[0] === '3') {
-          if (!outStack.length) {
-              while (inStack.length) {
-                  outStack.push(inStack.pop());
-              }
-          }
+          transferStack(inStack, outStack);
           console.log(outStack[outStack.length - 1]);
       }
-  })
+  });
 } 
+
+function transferStack(inStack, outStack) {
+  if (!outStack.length) {
+      while (inStack.length) {
+          outStack.push(inStack.pop());
+      }
+  }
+}
