@@ -1,16 +1,20 @@
 
 def topView(root):
-    dict = {}
-    
-    def traverseTree(node, level):
-        if level not in dict:
-            dict[level] = node.info
-        if node.left is not None:
-            traverseTree(node.left, level-1)
-        if node.right is not None:
-            traverseTree(node.right, level+1)
-    
-    traverseTree(root, 0)
+    if root is None:
+        return root
 
-    visible_nodes = [dict[key] for key in sorted(dict.keys())]
-    print(' '.join(map(str, visible_nodes)))
+    node_positions = {}
+    node_queue = [(root, 0)]
+
+    while len(node_queue):
+        node, position = node_queue.pop(0)
+
+        if position not in node_positions.keys():
+            node_positions[position] = node
+        if node.left:
+            node_queue.append((node.left, position-1))
+        if node.right:
+            node_queue.append((node.right, position+1))
+    
+    for key in sorted(node_positions.keys()):
+        print(node_positions[key], end=' ')
